@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Hero/Hero';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // استيراد الـ Router
 import Subscribe from './components/subscribe/subscribe';
-import Footer from './components/Footer/Footer';
+import Dashboard from './components/Dashboard/Dashboard';
+import MainLayout from './components/Layout/MainLayout';
+import HomeLayout from './components/Layout/HomeLayout';
 import Popup from './components/Popup/Popup';
 import Login from './components/Login/Login';
-import Products from './components/Products/Products';
-import AOS from "aos";
-import 'aos/dist/aos.css';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';  // استيراد الـ CSS الخاص بـ AOS
+
 
 
 const App = () => {
@@ -31,17 +33,31 @@ React.useEffect(() =>{
 });
 AOS.refresh();
 },[]);
+return (
+  <div>
 
-  return (
-    <div>
-      <Navbar handleSigninPopup={handleSigninPopup} handleLoginPopup={handleLoginPopup} />
-      <Hero handleSigninPopup={handleSigninPopup} handleLoginPopup={handleLoginPopup} />
-      <Products />
-      <Footer />
-      <Popup signinPopup={signinPopup} setSigninPopup={setSigninPopup} />
-      <Login loginPopup={loginPopup} setLoginPopup={setLoginPopup} />
-    </div>
-  );
-};
+      
+
+    <Routes>
+      <Route
+        path="/dashboard"
+        element={
+          <MainLayout>
+            <Dashboard />
+          </MainLayout>
+        }
+      />
+      {/* مسار آخر يمكن أن يكون HomeLayout أو مكونات أخرى */}
+      <Route path="/" element={<HomeLayout />} />
+    </Routes>
+    
+    {/* إضافة الSignup هنا */}
+    <Popup signinPopup={signinPopup} setSigninPopup={setSigninPopup} />
+    <Login loginPopup={loginPopup} setLoginPopup={setLoginPopup} />
+  </div>
+);
+
+
+}
 
 export default App;

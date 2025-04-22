@@ -3,28 +3,30 @@ import cors from "cors";
 import dotenv from "dotenv"; 
 import { connectDB } from "./config/db.js";
 import mongoose from "mongoose";
-import userRouter from './routes/userRouter.js';
+
+import userRouter from "./routes/userRouter.js";
+
+// تحميل المتغيرات البيئية
+dotenv.config();
 
 // تكوين التطبيق
 const app = express();
 const port = process.env.PORT || 4000;
 
-// تحميل المتغيرات البيئية
-dotenv.config();
+// الاتصال بقاعدة البيانات
+
 
 // استخدام الـ Middleware
-app.use(express.json());d
+app.use(express.json());
 app.use(cors());
+
+
+
 
 // استخدام الـ Router
 app.use('/api/users', userRouter);
 
-// الاتصال بقاعدة البيانات
-connectDB().then(() => {
-    console.log("Connected to MongoDB");
-}).catch((err) => {
-    console.log("Failed to connect to MongoDB", err);
-});
+
 
 // نقطة نهاية للاختبار
 app.get("/", (req, res) => {
@@ -32,6 +34,14 @@ app.get("/", (req, res) => {
 });
 
 // تشغيل الخادم
-app.listen(port, () => {
-    console.log(`Server Started on http://localhost:${port}`);
+
+
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log(`Server started on http://localhost:${port}`);
+        console.log(`Connected to MongoDB: ${mongoose.connection.host}`);
+    });
+}).catch((err) => {
+    console.error("Failed to connect to MongoDB:", err);
 });
+

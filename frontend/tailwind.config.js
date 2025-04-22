@@ -8,9 +8,9 @@ export default {
   theme: {
     extend: {
       colors: {
-      primary :"#D8C099",
-      secondary :"#A09183",
-      thri:"#B8A490"
+      primary :"#038c7f",
+      secondary :"#01403A",
+      thri:"#012626"
     },
     container :{
       center : true,
