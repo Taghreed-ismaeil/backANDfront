@@ -34,68 +34,90 @@ const Dashboard = () => {
   if (!isAuthenticated) {
     return <p>Loading...</p>;
   }
-
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-800 flex flex-col items-center justify-center">
- 
-      
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm mt-6">
-        <h2 className="text-xl font-semibold text-center text-blue-600 mb-4">User Info</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
-            />
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-900">
+      {/* Sidebar */}
+  
+      {/* Main Content */}
+      <main className="flex-1 p-8">
+        <h3 className="text-2xl font-semibold text-primary mb-6">User Information</h3>
+  
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 max-w-lg border border-gray-300 rounded-md p-6 shadow-sm"
+        >
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
+          />
+  
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
+          />
+  
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="Phone"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
+          />
+  
+          <input
+            type="text"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            placeholder="City"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
+          />
+  
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mr-4">Gender</label>
+            <div className="flex items-center gap-6">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  name="gender"
+                  value="male"
+                  className="form-checkbox text-primary w-5 h-5"
+                />
+                <span className="ml-2 text-primary">Male</span>
+              </label>
+  
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  name="gender"
+                  value="female"
+                  className="form-checkbox text-gray-700 w-5 h-5"
+                />
+                <span className="ml-2 text-primary">Female</span>
+              </label>
+            </div>
           </div>
-
-          <div>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          <div>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-600"
-            >
-              Submit
-            </button>
-          </div>
+  
+          
         </form>
-        
+  
         <button
           onClick={() => navigate('/')}
-          className="w-full mt-4 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600"
+          className="mt-6 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600"
         >
           Go to Home
         </button>
-      </div>
-  
+      </main>
     </div>
   );
 };
-
-export default Dashboard;
+  export default Dashboard;

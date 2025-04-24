@@ -6,6 +6,8 @@ import { FaCaretDown } from "react-icons/fa";
 import { Dropdown } from "react-bootstrap";
 import Popup from "../Popup/Popup";
 import Login from "../Login/Login";
+import MainLayout from "../Layout/MainLayout";
+import HomeLayout from "../Layout/HomeLayout";
 
 const menu =[
   {
@@ -48,7 +50,7 @@ link:"/#",
  
 
 
-const Navbar = ({handleSigninPopup , handleLoginPopup} ) => {
+const Navbar = ({handleSignupPopup , handleLoginPopup} ) => {
   return (
     <div className="shadow-md bg-white dark:bg-gray-900 
     dark:text-white duration-200 relative z-40">
@@ -86,7 +88,7 @@ const Navbar = ({handleSigninPopup , handleLoginPopup} ) => {
       {/* sign/log Button */}
       <div className="flex items-center justify-center">
   <button 
-    onClick={() => handleSigninPopup() }
+    onClick={() => handleSignupPopup() }
     className="bg-gradient-to-r from-primary to-secondary transition-all duration-200 
     text-white py-1 px-4 rounded-full flex items-center gap-1 group mx-1"
   >

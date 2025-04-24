@@ -4,9 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // ✅ استيراد useNavigate
 import Dashboard from '../Dashboard/Dashboard';
 
-const Popup = ({ signinPopup, setSigninPopup }) => {
+const Popup = ({ signupPopup, setSignupPopup }) => {
   const navigate = useNavigate(); // ✅ إنشاء navigate
-  const [accountType, setAccountType] = useState('');
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,12 +14,10 @@ const Popup = ({ signinPopup, setSigninPopup }) => {
   const [city, setCity] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleRoleChange = (e) => {
-    setAccountType(e.target.value);
-  };
+
 
   const handleSignUp = async () => {
-    if (!email || !password || !confirmPassword || !phoneNumber || !accountType || !city) {
+    if (!email || !password || !confirmPassword || !phoneNumber  || !city) {
       setMessage('Please fill in all fields');
       console.log('Password:', password);
       console.log('Confirm Password:', confirmPassword);
@@ -38,10 +36,10 @@ const Popup = ({ signinPopup, setSigninPopup }) => {
       const response = await axios.post('http://localhost:4000/api/users/signUp', {
         email,
         password,
-        confirmPassword, 
+        confirmPassword,
         phoneNumber,
         city,
-        accountType,
+      
       });
 
       console.log('Signup Success:', response.data);
@@ -51,7 +49,7 @@ const Popup = ({ signinPopup, setSigninPopup }) => {
 
       // ✅ توجيه لصفحة الداشبورد بعد ثانيتين
       setTimeout(() => {
-        setSigninPopup(false); // إغلاق الـ Popup بعد 1.5 ثانية
+        setSignupPopup(false); // إغلاق الـ Popup بعد 1.5 ثانية
         navigate('/dashboard'); // توجيه إلى صفحة الداشبورد
       }, 1500);
 
@@ -66,14 +64,14 @@ const Popup = ({ signinPopup, setSigninPopup }) => {
 
   return (
     <>
-      {signinPopup && (
+      {signupPopup && (
         <div className="h-screen w-screen fixed top-0 left-0 bg-blue/50 backdrop-blur-sm flex items-center justify-center">
           <div className="p-4 shadow-md bg-[#038C7F] dark:bg-gray-900 rounded-md w-[500px]">
             <div className="flex items-center justify-between mb-4">
               <h1 className="text-lg font-semibold">Sign Up</h1>
               <IoCloseOutline
                 className="text-2xl cursor-pointer"
-                onClick={() => setSigninPopup(false)}
+                onClick={() => setSignupPopup(false)}
               />
             </div>
 
@@ -106,22 +104,18 @@ const Popup = ({ signinPopup, setSigninPopup }) => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 className="w-full rounded-full border px-2 py-1"
               />
-              <input
-                type="text"
-                placeholder="City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="w-full rounded-full border px-2 py-1"
-              />
               <select
-                value={accountType}
-                onChange={handleRoleChange}
-                className="w-full rounded-full border px-2 py-1"
-              >
-                <option value="">Select Role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
+  value={city}
+  onChange={(e) => setCity(e.target.value)}
+  className="w-full rounded-full border px-2 py-1"
+>
+  <option value="">Select City</option>
+  <option value="Amman">Amman</option>
+  <option value="Zarqa">Zarqa</option>
+  <option value="Irbid">Irbid</option>
+  <option value="Aqaba">Aqaba</option>
+</select>
+              
             </div>
 
             <div className="flex justify-center mt-4">

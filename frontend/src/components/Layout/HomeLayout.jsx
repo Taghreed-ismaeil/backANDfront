@@ -6,29 +6,29 @@ import Popup from "../Popup/Popup";
 import Login from "../Login/Login";
 
 const HomeLayout = ({
-  handleSigninPopup,
+  handleSignupPopup,
   handleLoginPopup,
-  signinPopup,
+  signupPopup,
   loginPopup,
-  setSigninPopup,
+  setSignupPopup,
   setLoginPopup
 }) => {
   return (
     <>
       <Navbar
-        handleSigninPopup={handleSigninPopup}
+        handleSignupPopup={handleSignupPopup}
         handleLoginPopup={handleLoginPopup}
       />
       <Hero
-        handleSigninPopup={handleSigninPopup}
+        handleSignupPopup={handleSignupPopup}
         handleLoginPopup={handleLoginPopup}
       />
       <Products />
       <Footer />
-      {signinPopup && (
+      {signupPopup && (
         <Popup
-          signinPopup={signinPopup}
-          setSigninPopup={setSigninPopup}
+          signupPopup={signupPopup}
+          setSignupPopup={setSignupPopup}
         />
       )}
       {loginPopup && (

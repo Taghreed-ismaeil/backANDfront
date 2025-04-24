@@ -13,11 +13,11 @@ import 'aos/dist/aos.css';  // استيراد الـ CSS الخاص بـ AOS
 
 
 const App = () => {
-  const [signinPopup, setSigninPopup] = useState(false);
+  const [signupPopup, setSignupPopup] = useState(false);
   const [loginPopup, setLoginPopup] = useState(false);
 
-  const handleSigninPopup = () => {
-    setSigninPopup(!signinPopup);
+  const handleSignupPopup = () => {
+    setSignupPopup(!signupPopup);
   };
 
   const handleLoginPopup = () => {
@@ -48,11 +48,24 @@ return (
         }
       />
       {/* مسار آخر يمكن أن يكون HomeLayout أو مكونات أخرى */}
-      <Route path="/" element={<HomeLayout />} />
+      <Route
+  path="/"
+  element={
+    <HomeLayout
+      handleSignupPopup={handleSignupPopup}
+      handleLoginPopup={handleLoginPopup}
+      signupPopup={signupPopup}
+      loginPopup={loginPopup}
+      setSignupPopup={setSignupPopup}
+      setLoginPopup={setLoginPopup}
+    />
+  }
+/>
+
     </Routes>
     
     {/* إضافة الSignup هنا */}
-    <Popup signinPopup={signinPopup} setSigninPopup={setSigninPopup} />
+    <Popup signupPopup={signupPopup} setSignupPopup={setSignupPopup} />
     <Login loginPopup={loginPopup} setLoginPopup={setLoginPopup} />
   </div>
 );
