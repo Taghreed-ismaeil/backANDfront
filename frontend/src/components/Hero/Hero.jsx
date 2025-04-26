@@ -24,7 +24,47 @@ const ImageList = [
     img: Image3,
     title: "Ehjezli",
     description:
-      "  Our platform helps you find venues,event planners, catering, photography, and décor—all in one place for a perfect event!",
+      "Our platform helps you find venues, event planners, catering, photography, and décor—all in one place for a perfect event!",
+  },
+];
+
+// Venue details
+const venueList = [
+  {
+    id: 1,
+    name: "Venue A",
+    location: "Amman",
+    price: "$500",
+    rating: 4.5,
+    img: Image1,
+    capacity: 200,
+    facilities: ["Free Wi-Fi", "Projector", "Catering Service", "Sound System"],
+    description: "A spacious venue with modern facilities, perfect for weddings and corporate events.",
+    policies: "Cancellation policy applies. Full payment required 30 days before the event.",
+  },
+  {
+    id: 2,
+    name: "Venue B",
+    location: "Zarqa",
+    price: "$400",
+    rating: 4.0,
+    img: Image2,
+    capacity: 150,
+    facilities: ["Air Conditioning", "Sound System", "Parking", "Event Planning"],
+    description: "Ideal for intimate gatherings and conferences, with a beautiful outdoor area.",
+    policies: "No pets allowed. Limited parking spaces available.",
+  },
+  {
+    id: 3,
+    name: "Venue C",
+    location: "Irbid",
+    price: "$600",
+    rating: 4.8,
+    img: Image3,
+    capacity: 250,
+    facilities: ["Projector", "Catering", "Outdoor Space", "Photo Booth"],
+    description: "A grand venue with an elegant setting for large events and parties.",
+    policies: "Booking must be confirmed 60 days prior. Refundable deposit required.",
   },
 ];
 
@@ -32,6 +72,7 @@ const Hero = ({ handleSigninPopup }) => {
   const [city, setCity] = useState("");
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState("");
+  const [selectedVenue, setSelectedVenue] = useState(null);
 
   var sittings = {
     dots: false,
@@ -43,6 +84,22 @@ const Hero = ({ handleSigninPopup }) => {
     cssEase: "ease-in-out",
     pauseOnHover: false,
     pauseOnfoucs: true,
+  };
+
+  // Filter venues based on city
+  const filteredVenues = venueList.filter((venue) => {
+    return (city ? venue.location === city : true);
+  });
+
+  // View venue details
+  const handleViewDetails = (venue) => {
+    setSelectedVenue(venue);
+  };
+
+  // Check availability for a specific venue
+  const handleCheckAvailability = () => {
+    alert("Checking availability...");
+    // Logic to check availability based on city, date, and guests can be added here
   };
 
   return (
@@ -85,9 +142,9 @@ const Hero = ({ handleSigninPopup }) => {
         </Slider>
       </div>
 
-      {/* Booking form */}
+      {/* Venue filter and availability form */}
       <div className="container mt-8">
-        <form className="bg-white text-gray-500 rounded-lg px-6 py-4 flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto">
+        <form className="bg-white text-gray-500 rounded-lg px-6 py-4 mt-8 flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto">
           <div>
             <label htmlFor="locationSelect" className="block mb-1 font-medium">Location</label>
             <select
@@ -130,28 +187,67 @@ const Hero = ({ handleSigninPopup }) => {
             />
           </div>
 
-          <button className="flex items-center justify-center gap-1 rounded-md bg-primary py-3 px-4 text-white my-auto cursor-pointer max-md:w-full max-md:py-1">
-
-            <svg
-              className="w-4 h-4 text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="2"
-                d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-              />
-            </svg>
-            <span>Search</span>
+          <button
+            onClick={handleCheckAvailability}
+            className="flex items-center justify-center gap-1 rounded-md bg-primary py-3 px-4 text-white my-auto cursor-pointer max-md:w-full max-md:py-1"
+          >
+            <span>Check Availability</span>
           </button>
         </form>
       </div>
+
+      {/* Venue Cards Section */}
+      <div className="container mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredVenues.slice(0, 4).map((venue) => (
+            <div key={venue.id} className="border border-gray-200 rounded-lg overflow-hidden shadow-lg">
+              <img src={venue.img} alt={venue.name} className="w-full h-48 object-cover" />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold">{venue.name}</h3>
+                <p className="text-sm text-gray-500">{venue.location}</p>
+                <p className="text-lg font-semibold mt-2">{venue.price}</p>
+                <div className="flex items-center mt-2">
+                  <span className="text-yellow-500">⭐ {venue.rating}</span>
+                </div>
+                <p className="text-sm text-gray-600 mt-2">{venue.description}</p>
+                <div className="mt-4">
+                  <button
+                    onClick={() => handleViewDetails(venue)}
+                    className="bg-gradient-to-r from-primary to-secondary py-2 px-4 text-white rounded-full mr-2"
+                  >
+                    View Details
+                  </button>
+                  <button
+                    onClick={handleSigninPopup}
+                    className="bg-gradient-to-r from-primary to-secondary py-2 px-4 text-white rounded-full"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Venue details modal */}
+      {selectedVenue && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg mx-auto">
+            <h2 className="text-2xl font-semibold">{selectedVenue.name}</h2>
+            <p className="text-gray-500 mt-2">{selectedVenue.description}</p>
+            <h3 className="font-semibold mt-4">Capacity: {selectedVenue.capacity} Guests</h3>
+            <p className="mt-2"><strong>Facilities:</strong> {selectedVenue.facilities.join(", ")}</p>
+            <p className="mt-2"><strong>Policies:</strong> {selectedVenue.policies}</p>
+            <button
+              onClick={() => setSelectedVenue(null)}
+              className="mt-4 text-red-500 hover:underline"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
