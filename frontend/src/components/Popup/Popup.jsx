@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // ✅ استيراد useNavigate
-import Dashboard from '../Dashboard/Dashboard';
+import { useNavigate } from 'react-router-dom';
 
 const Popup = ({ signupPopup, setSignupPopup }) => {
-  const navigate = useNavigate(); // ✅ إنشاء navigate
+  const navigate = useNavigate();
   
+  const [name, setName] = useState('');
+  const [gender, setGender] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,18 +15,11 @@ const Popup = ({ signupPopup, setSignupPopup }) => {
   const [city, setCity] = useState('');
   const [message, setMessage] = useState('');
 
-
-
   const handleSignUp = async () => {
-    if (!email || !password || !confirmPassword || !phoneNumber  || !city) {
+    if (!name || !gender || !email || !password || !confirmPassword || !phoneNumber || !city) {
       setMessage('Please fill in all fields');
-      console.log('Password:', password);
-      console.log('Confirm Password:', confirmPassword);
       return;
-      
     }
- 
-
 
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
@@ -34,23 +28,34 @@ const Popup = ({ signupPopup, setSignupPopup }) => {
 
     try {
       const response = await axios.post('http://localhost:4000/api/users/signUp', {
+        name,
+        gender,
         email,
         password,
         confirmPassword,
         phoneNumber,
         city,
-      
+       
       });
 
       console.log('Signup Success:', response.data);
-      localStorage.setItem('token', response.data.token);
+
+      sessionStorage.setItem('token', response.data.token);
+
+      const userData = {
+        name,
+        gender,
+        email,
+        phoneNumber,
+        city,
+      };
+      sessionStorage.setItem('user', JSON.stringify(userData));
 
       setMessage('Account created successfully!');
 
-      // ✅ توجيه لصفحة الداشبورد بعد ثانيتين
       setTimeout(() => {
-        setSignupPopup(false); // إغلاق الـ Popup بعد 1.5 ثانية
-        navigate('/dashboard'); // توجيه إلى صفحة الداشبورد
+        setSignupPopup(false);
+        navigate('/dashboard');
       }, 1500);
 
     } catch (error) {
@@ -76,6 +81,24 @@ const Popup = ({ signupPopup, setSignupPopup }) => {
             </div>
 
             <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Username"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full rounded-full border px-2 py-1"
+              />
+
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="w-full rounded-full border px-2 py-1"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+
               <input
                 type="email"
                 placeholder="Email"
@@ -105,17 +128,16 @@ const Popup = ({ signupPopup, setSignupPopup }) => {
                 className="w-full rounded-full border px-2 py-1"
               />
               <select
-  value={city}
-  onChange={(e) => setCity(e.target.value)}
-  className="w-full rounded-full border px-2 py-1"
->
-  <option value="">Select City</option>
-  <option value="Amman">Amman</option>
-  <option value="Zarqa">Zarqa</option>
-  <option value="Irbid">Irbid</option>
-  <option value="Aqaba">Aqaba</option>
-</select>
-              
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="w-full rounded-full border px-2 py-1"
+              >
+                <option value="">Select City</option>
+                <option value="Amman">Amman</option>
+                <option value="Zarqa">Zarqa</option>
+                <option value="Irbid">Irbid</option>
+                <option value="Aqaba">Aqaba</option>
+              </select>
             </div>
 
             <div className="flex justify-center mt-4">

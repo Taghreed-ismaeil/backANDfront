@@ -6,6 +6,7 @@ export const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    console.log(process.env.MONGO_URI); // يتأكد إذا الرابط متاح
 
     console.log("✅ MongoDB Connected");
   } catch (error) {

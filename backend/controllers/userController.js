@@ -1,14 +1,18 @@
-import userModel from "../models/userModel.js";
+ import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 
-// ✅ إنشاء التوكن
 const createToken = (id) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET غير معرف في .env');
+  }
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
-// ✅ دالة تسجيل الدخول
+
+
+// ✅ تسجيل الدخول
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -23,17 +27,29 @@ const loginUser = async (req, res) => {
     }
 
     const token = createToken(user._id);
-    res.json({ success: true, token });
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        city: user.city,
+        gender: user.gender, // 🔥 رجع الجندر كمان
+      }
+    });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
   }
 };
 
-// ✅ دالة إنشاء حساب جديد
+// ✅ إنشاء حساب جديد
 const signUpUser = async (req, res) => {
-  const { email, password, confirmPassword, phoneNumber, accountType, city } = req.body;
+  console.log('Incoming Request Body:', req.body);
 
+  const { name, gender, email, password, confirmPassword, phoneNumber, city } = req.body;
 
   try {
     const exists = await userModel.findOne({ email });
@@ -41,7 +57,7 @@ const signUpUser = async (req, res) => {
       return res.json({ success: false, message: "user already exists" });
     }
 
-    // تحقق من صحة الإيميل وقوة كلمة المرور
+    // التحقق من صحة البيانات
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: "please enter a valid email" });
     }
@@ -49,32 +65,54 @@ const signUpUser = async (req, res) => {
     if (password.length < 8) {
       return res.json({ success: false, message: "please enter a strong password" });
     }
+
     if (password !== confirmPassword) {
       return res.json({ success: false, message: "Passwords do not match" });
+    }
+
+    if (!gender) {
+      return res.json({ success: false, message: "Please select gender" });
     }
 
     // تشفير كلمة المرور
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // إنشاء مستخدم جديد بكل الحقول
+    // إنشاء مستخدم جديد بعد التحقق من صحة البيانات
     const newUser = new userModel({
+      name,
+      gender,
       email,
       password: hashedPassword,
       phoneNumber,
-      accountType,
-      city
+      city,
+      accountType: "user" // 👈 اضفناها
     });
+console.log(newUser);
 
+    // حفظ المستخدم الجديد في قاعدة البيانات
     const user = await newUser.save();
+
+    // إنشاء التوكن
     const token = createToken(user._id);
 
-    res.json({ success: true, token });
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        city: user.city,
+        gender: user.gender, // 🔥 رجعنا الجندر بالرد
+      }
+    });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "error" });
   }
 };
 
-export { loginUser, signUpUser };
 
+export { loginUser, signUpUser };

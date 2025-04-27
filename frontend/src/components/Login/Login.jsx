@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { IoCloseOutline } from 'react-icons/io5';
 import axios from 'axios';
@@ -18,10 +18,6 @@ const LoginPopup = ({ loginPopup, setLoginPopup }) => {
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handleLoginPopup = async (event) => {
     event.preventDefault();
 
@@ -31,15 +27,15 @@ const LoginPopup = ({ loginPopup, setLoginPopup }) => {
       if (response.data.success) {
         setMessage("✅ تم تسجيل الدخول بنجاح!");
 
-        
+        // حفظ التوكن وبيانات المستخدم في localStorage
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user)); // حفظ بيانات المستخدم
 
         setTimeout(() => {
           setLoginPopup(false);
           setMessage("");
-          navigate("/dashboard"); 
+          navigate("/dashboard"); // التوجيه إلى صفحة الداشبورد بعد تسجيل الدخول
         }, 1500);
-
       } else {
         setMessage("❌ البريد الإلكتروني أو كلمة المرور غير صحيحة.");
       }
