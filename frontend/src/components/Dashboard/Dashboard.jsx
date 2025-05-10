@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import dashPic from '../../assets/Dash/dashPic.jpg';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -52,6 +53,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-900">
       {/* Sidebar */}
+
+
 
 
       {/* Main Content */}
@@ -135,6 +138,18 @@ const Dashboard = () => {
           Go to Home
         </button>
       </main>
+
+      {/* left Image Panel */}
+{/* <div className="hidden lg:flex w-1/2 justify-end items-center ">
+  <img
+    src={dashPic}
+    alt="Dashboard Visual"
+        className="w-[400px] h-[400px] object-cover rounded-full shadow-xl
+         transform border-4 border-primary"
+
+  />
+</div>
+*/}
     </div>
   );
 };

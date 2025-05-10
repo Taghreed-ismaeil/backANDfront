@@ -152,7 +152,7 @@ const Popup = ({ signupPopup, setSignupPopup }) => {
             {message && (
               <p
                 className={`text-center mt-4 font-medium transition-all duration-300 ${
-                  message.toLowerCase().includes('success') ? 'text-green-600' : 'text-red-600'
+                  message.toLowerCase().includes('success') ? 'text-green-500' : 'text-red-600'
                 }`}
               >
                 {message}

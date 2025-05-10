@@ -1,4 +1,4 @@
- import userModel from "../models/userModel.js";
+import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import validator from "validator";
@@ -113,6 +113,17 @@ console.log(newUser);
     res.json({ success: false, message: "error" });
   }
 };
+const allUsers = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    res.json({ success: true, users });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "error" });
+  }
+};
 
 
-export { loginUser, signUpUser };
+
+
+export { loginUser, signUpUser, allUsers };

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Image1 from "../../assets/Hero/noback.png";
 import Image2 from "../../assets/Hero/woman.png";
 import Image3 from "../../assets/Hero/coupls.png";
@@ -73,6 +75,8 @@ const Hero = ({ handleSigninPopup }) => {
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState("");
   const [selectedVenue, setSelectedVenue] = useState(null);
+
+  const navigate = useNavigate(); 
 
   var sittings = {
     dots: false,
@@ -223,6 +227,14 @@ const Hero = ({ handleSigninPopup }) => {
                   >
                     Book Now
                   </button>
+                  <button
+   onClick={() => navigate('/Provider-Page')}
+
+   className="bg-gray-100 text-gray-700 py-2 px-4 rounded-full
+   mt-2 hover:bg-primary hover:text-white block"
+>
+    Add Your Own Venue
+  </button>
                 </div>
               </div>
             </div>

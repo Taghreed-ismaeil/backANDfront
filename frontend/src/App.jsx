@@ -6,6 +6,7 @@ import MainLayout from './components/Layout/MainLayout';
 import HomeLayout from './components/Layout/HomeLayout';
 import Popup from './components/Popup/Popup';
 import Login from './components/Login/Login';
+import Provider from './components/Provider/Provider';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';  // استيراد الـ CSS الخاص بـ AOS
@@ -45,8 +46,19 @@ return (
           <MainLayout>
             <Dashboard />
           </MainLayout>
+      
+    
         }
       />
+      
+  <Route
+    path="/Provider-Page"
+    element={
+      <MainLayout>
+        <Provider />
+      </MainLayout>
+    }
+  />
       {/* مسار آخر يمكن أن يكون HomeLayout أو مكونات أخرى */}
       <Route
   path="/"
